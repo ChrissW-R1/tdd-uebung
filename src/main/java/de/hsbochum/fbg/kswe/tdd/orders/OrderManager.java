@@ -11,17 +11,25 @@ import java.util.Set;
  */
 public class OrderManager {
 	private final ProductDeliveryService delivery;
-	private final List<Order> queuedOrders = new LinkedList<>();
+	private final Set<Order> queuedOrders = new LinkedHashSet<>();
 	
 	public OrderManager(ProductDeliveryService delivery) {
 		this.delivery = delivery;
 	}
 	
-	public Set<Order> getOrders() {
-		return new LinkedHashSet<>(this.queuedOrders);
+	public List<Order> getQueuedOrders() {
+		return new LinkedList<>(this.queuedOrders);
 	}
 	
 	public void submitOrder(Order order) {
 		this.queuedOrders.add(order);
+	}
+	
+	public void processOrders() {
+		Set<Order> orders = new LinkedHashSet<>(this.getQueuedOrders());
+		orders.forEach(order -> {
+			this.delivery.deliver(order.getProduct(), order.getCustomer());
+			this.queuedOrders.remove(order);
+		});
 	}
 }

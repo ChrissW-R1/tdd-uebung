@@ -1,10 +1,7 @@
 
 package de.hsbochum.fbg.kswe.tdd.orders;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author <a href="mailto:m.rieke@52north.org">Matthes Rieke</a>
@@ -26,7 +23,9 @@ public class OrderManager {
 	}
 	
 	public void processOrders() {
-		Set<Order> orders = new LinkedHashSet<>(this.getQueuedOrders());
+		List<Order> orders = new LinkedList<>(this.getQueuedOrders());
+		Collections.sort(orders);
+		
 		orders.forEach(order -> {
 			this.delivery.deliver(order.getProduct(), order.getCustomer());
 			this.queuedOrders.remove(order);

@@ -1,6 +1,7 @@
 package de.hsbochum.fbg.kswe.tdd.orders;
 
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,6 +34,17 @@ public class OrderManagerTest {
 		for (Order order : orders) {
 			manager.submitOrder(order);
 		}
+	}
+	
+	@Test
+	public void sumbitOrder() {
+		Order order = Mockito.mock(Order.class);
+		
+		Assert.assertThat(manager.getQueuedOrders(), CoreMatchers.not(Matchers.hasItem(order)));
+		
+		manager.submitOrder(order);
+		
+		Assert.assertThat(manager.getQueuedOrders(), Matchers.hasItem(order));
 	}
 	
 	@Test

@@ -3,6 +3,8 @@ package de.hsbochum.fbg.kswe.tdd;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hsbochum.solarcar.units.geometry.length.LengthUnit;
+import de.hsbochum.solarcar.units.geometry.length.Meter;
 import lombok.Getter;
 
 public class TimeSeries {
@@ -27,7 +29,11 @@ public class TimeSeries {
 		return this.observations.remove(observation);
 	}
 	
+	public double calculateMean(LengthUnit unit) {
+		return this.observations.stream().mapToDouble(value -> value.getValue().convertTo(unit).getValue()).average().getAsDouble();
+	}
+	
 	public double calculateMean() {
-		return this.observations.stream().mapToDouble(value -> value.getValue()).average().getAsDouble();
+		return this.calculateMean(new Meter());
 	}
 }

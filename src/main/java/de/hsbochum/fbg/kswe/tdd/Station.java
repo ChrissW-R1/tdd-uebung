@@ -1,6 +1,5 @@
 package de.hsbochum.fbg.kswe.tdd;
 
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -32,12 +31,6 @@ public class Station {
 	}
 	
 	public double distanceTo(Station other) {
-		Coordinate thisCoord  = this.getLocation().getCoordinate();
-		Coordinate otherCoord = other.getLocation().getCoordinate();
-		
-		return Math.sqrt(
-				Math.pow(thisCoord.getOrdinate(0) - otherCoord.getOrdinate(0), 2)
-				+ Math.pow(thisCoord.getOrdinate(1) - otherCoord.getOrdinate(1), 2)
-		                );
+		return this.getLocation().distance(other.getLocation());
 	}
 }
